@@ -16,11 +16,7 @@ $sql = "select * from hotels where pref like '%$add%' or city like '%$add%' or a
 $pstmt = $pdo->prepare($sql);
 $pstmt->execute($params);
 $rs = $pstmt->fetchAll();
-//$rs = $pstmt->fetchAll();
-//if(empty($rs[0])){
-   // $alert = "<script type='text/javascript'>alert('検索結果なし');</script>";
-    //echo $alert;
-//}
+
 
 $hotels = [];
 foreach ($rs as $record) {
@@ -56,7 +52,29 @@ foreach ($rs as $record) {
 	<main>
 		<article>
 			<table>
-				<tr>
+			    <?php foreach ($hotels as $hotel) { ?>
+			<tr>
+					<td>
+						<img src=../images/<?= $hotel->getImage()?> width="100" />
+					</td>
+					<td>
+						<table class="detail">
+							<tr>
+								<td><?= $hotel->getName()?><br /></td>
+							<tr>	
+								<td><?= $hotel->getPref()?>
+									<?= $hotel->getCity()?>
+									<?= $hotel->getAddress() ?><br /></td>
+							</tr>
+							<tr>
+								<td>宿泊料：&yen;<?= $hotel->getPrice()?></td>
+							</tr>
+							<tr>
+								<td><?= $hotel->getMemo()?></td>
+							</tr>
+						</table>
+			<?php } ?>
+				<!--<tr>
 					<td>
 						<img src="../images/1.png" width="100" />
 					</td>
@@ -181,7 +199,7 @@ foreach ($rs as $record) {
 							</tr>
 						</table>
 					</td>
-				</tr>
+				</tr>-->
 			</table>
 		</article>
 	</main>

@@ -3,6 +3,7 @@
 
 ?>
 
+
 <!DOCTYPE html>
 <html lang="ja">
 
@@ -24,6 +25,7 @@
 				<input type="text" name="address" />
 				<input type="submit" value="検索" />
 			</form>
+			
 		</article>
 	</main>
 	<footer>
