@@ -1,3 +1,43 @@
+<?php
+require_once "database.php";
+require_once "classes.php";
+
+//step.1 リクエストパラメータを取得
+$address = - 1;
+if (isset($_REQUEST["address"])) {
+    $search = $_REQUEST["address"];
+}
+
+//step.2 データベースの接続
+$pdo = connectDatabase();
+
+//step.3 実行するSQL設定
+$sql = "select * from hotels where pref like '%$add%' or city like '%$add%' or address like '%$add%';";
+$pstmt = $pdo->prepare($sql);
+$pstmt->execute($params);
+$rs = $pstmt->fetchAll();
+//$rs = $pstmt->fetchAll();
+//if(empty($rs[0])){
+   // $alert = "<script type='text/javascript'>alert('検索結果なし');</script>";
+    //echo $alert;
+//}
+
+$hotels = [];
+foreach ($rs as $record) {
+    $id = intval($record["id"]);
+    $name = $record["name"];
+    $price = intval($record["price"]);
+    $pref = $record["pref"];
+    $city = $record["city"];
+    $address = $record["address"];
+    $memo = (string) $record["memo"];
+    $image = $record["image"];
+    $hotel = new Hotel($id, $name, $price, $pref, $city, $address, $memo, $image);
+    $hotels[] = $hotel;
+}
+
+?>
+
 <!DOCTYPE html>
 <html lang="ja">
 
@@ -11,7 +51,7 @@
 <body>
 	<header>
 		<h1>ホテル検索結果一覧</h1>
-		<p><a href="./entry.html">検索ページに戻る</a></p>
+		<p><a href="./entry.php">検索ページに戻る</a></p>
 	</header>
 	<main>
 		<article>
